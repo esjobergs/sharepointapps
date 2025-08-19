@@ -3,7 +3,7 @@
   const out = document.getElementById('result');
   const multiplier = 1.25 * 1.34; // 1.675
 
-  // Specialfall: vissa inköpspriser ska ge fasta kundpriser
+  // Undantag: specifika inköpspriser -> fast kundpris
   const overrides = new Map([
     [451, 899],
     [534, 899],
@@ -13,7 +13,7 @@
 
   function parseNumber(raw) {
     if (!raw) return NaN;
-    // Tillåt mellanslag/kommatecken och ta bort ev. valutatecken
+    // Tillåt mellanslag, komma, och ta bort ev. valutatecken
     const normalized = String(raw)
       .trim()
       .replace(/\s/g, '')
@@ -29,20 +29,22 @@
 
   function calc() {
     const n = parseNumber(input.value);
+
     if (!Number.isFinite(n)) {
       out.textContent = '–';
       return;
     }
 
-    // Kolla om input exakt matchar något specialfall (451, 534, 1300, 1500)
+    // Om inmatningen exakt matchar ett undantag -> visa fast pris
     if (overrides.has(n)) {
-      out.textContent = format.format(overrides.get(n));
+      const fixed = overrides.get(n);
+      out.textContent = `${format.format(fixed)} (Within home delivery zone, fixed price)`;
       return;
     }
 
-    // Standard: n * 1.25 * 1.34
+    // Annars: beräkna enligt formeln
     const result = n * multiplier;
-    out.textContent = format.format(result);
+    out.textContent = `${format.format(result)} (Outside of home delivery zone, calculated price)`;
   }
 
   input.addEventListener('input', calc);
