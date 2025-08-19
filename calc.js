@@ -8,20 +8,13 @@
     const normalized = String(raw).replace(/\s/g,'').replace(',', '.');
     return Number(normalized);
   }
-
   function formatSv(num) {
     return new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 2 }).format(num);
   }
-
   function calc() {
     const n = parseNumber(input.value);
-    if (Number.isFinite(n)) {
-      out.textContent = formatSv(n * multiplier);
-    } else {
-      out.textContent = '–';
-    }
+    out.textContent = Number.isFinite(n) ? formatSv(n * multiplier) : '–';
   }
-
   input.addEventListener('input', calc);
   calc();
 })();
