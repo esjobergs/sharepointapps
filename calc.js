@@ -13,7 +13,7 @@
 
   function parseNumber(raw) {
     if (!raw) return NaN;
-    // Tillåt mellanslag, komma, och ta bort ev. valutatecken
+    // Tillåt mellanslag/komma och ta bort ev. valutatecken
     const normalized = String(raw)
       .trim()
       .replace(/\s/g, '')
@@ -22,10 +22,12 @@
     return Number(normalized);
   }
 
-  const format = new Intl.NumberFormat('sv-SE', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2
+  // Formatering: heltal + " kr"
+  const intFormat = new Intl.NumberFormat('sv-SE', {
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0
   });
+  const toKrCeil = (num) => `${intFormat.format(Math.ceil(num))} kr`;
 
   function calc() {
     const n = parseNumber(input.value);
@@ -35,16 +37,13 @@
       return;
     }
 
-    // Om inmatningen exakt matchar ett undantag -> visa fast pris
-    if (overrides.has(n)) {
-      const fixed = overrides.get(n);
-      out.textContent = `${format.format(fixed)} (Within home delivery zone, fixed price)`;
-      return;
-    }
+    // Värde: använd override om träff, annars beräkning
+    const value = overrides.has(n) ? overrides.get(n) : (n * multiplier);
 
-    // Annars: beräkna enligt formeln
-    const result = n * multiplier;
-    out.textContent = `${format.format(result)} (Outside of home delivery zone, calculated price)`;
+    // Etikett: baserat på inmatningen (n)
+    const label = n > 1500 ? '(calculated price)' : '(Fixed price)';
+
+    out.textContent = `${toKrCeil(value)} ${label}`;
   }
 
   input.addEventListener('input', calc);
