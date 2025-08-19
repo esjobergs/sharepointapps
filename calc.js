@@ -22,7 +22,7 @@
     return Number(normalized);
   }
 
-  // Formatering: heltal + " kr"
+  // Formatering: heltal + " kr" (alltid uppåt)
   const intFormat = new Intl.NumberFormat('sv-SE', {
     maximumFractionDigits: 0,
     minimumFractionDigits: 0
@@ -37,12 +37,13 @@
       return;
     }
 
-    // Värde: använd override om träff, annars beräkning
-    const value = overrides.has(n) ? overrides.get(n) : (n * multiplier);
+    // Etikett styrs av om inmatningen är ett override
+    const isOverride = overrides.has(n);
 
-    // Etikett: baserat på inmatningen (n)
-    const label = n > 1500 ? '(calculated price)' : '(Fixed price)';
+    // Värde: override om träff, annars beräkning
+    const value = isOverride ? overrides.get(n) : (n * multiplier);
 
+    const label = isOverride ? '(fast pris)' : '(beräknat)';
     out.textContent = `${toKrCeil(value)} ${label}`;
   }
 
