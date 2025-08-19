@@ -43,10 +43,11 @@
     // Värde: override om träff, annars beräkning
     const value = isOverride ? overrides.get(n) : (n * multiplier);
 
-    const label = isOverride ? '(fast pris)' : '(beräknat)';
+    const label = isOverride ? '(Fixed price)' : '(Calculated price)';
     out.textContent = `${toKrCeil(value)} ${label}`;
   }
 
   input.addEventListener('input', calc);
   calc();
 })();
+
