@@ -64,11 +64,11 @@
     // Customer Fee (incl. VAT)
     const isOverride = overrides.has(n);
     const feeValue   = isOverride ? overrides.get(n) : ceilTo10(n * multiplier); // heltal kr
-    const feeLabel   = isOverride ? '(Fast Price)' : '(Calculated Price)';
+    const feeLabel   = isOverride ? '(Fixed Price)' : '(Calculated Price)';
     outIncl.textContent = `${toKr(feeValue)} ${feeLabel}`;
 
     // Customer Fee (excl. VAT) = 80% av inkl. VAT, exakt utan avrundning
-    outEx.textContent = `${toKrEightyPercentNoRound(feeValue)} (excl. VAT)`;
+    outEx.textContent = `${toKrEightyPercentNoRound(feeValue)}`;
 
     // Visa infotext bara när det INTE är undantag
     showNote(!isOverride);
@@ -77,3 +77,4 @@
   input.addEventListener('input', calc);
   calc();
 })();
+
