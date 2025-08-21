@@ -4,37 +4,32 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Home Delivery Fee</title>
-<style>
-  body { font-family: Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 8px; }
-  .card { max-width: 600px; margin: 0 auto; padding: 8px; border-radius: 10px; border:1px solid #eee; box-shadow:none; }
-  label { font-weight: 600; margin-bottom: 4px; display:block; }
-  input { padding: 8px 10px; border:1px solid #ccc; border-radius: 8px; font-size: 16px; width: 96%; }
-  .out { margin-top:6px; padding: 8px; border: 1px dashed #cbd5e1; border-radius: 8px; background:#f8fafc; font-size: 16px; min-height: 20px; }
-  .muted{ color:#64748b; font-size: 11px; margin-top:4px; }
-</style>
+  <style>
+    body { font-family: Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 8px; }
+    .card { max-width: 600px; margin: 0 auto; padding: 8px; border-radius: 10px; border:1px solid #eee; box-shadow:none; }
+    label { font-weight: 600; margin-bottom: 4px; display:block; }
+    input { padding: 8px 10px; border:1px solid #ccc; border-radius: 8px; font-size: 16px; width: 100%; box-sizing: border-box; }
+    .out { margin-top:6px; padding: 8px; border: 1px dashed #cbd5e1; border-radius: 8px; background:#f8fafc; font-size: 16px; min-height: 20px; }
+    .muted{ color:#64748b; font-size: 11px; margin-top:4px; }
+  </style>
 </head>
 <body>
   <div class="card" role="group" aria-labelledby="hdr">
-    <h2 id="hdr" style="margin-top:0">Home Delivery Price Calculator</h2>
+    <h2 id="hdr" style="margin-top:0">Gire Price Calculator</h2>
+
     <label for="n">Gire Price</label>
     <input id="n" type="text" inputmode="decimal" placeholder="Input price from Gire Portal ex. VAT" />
+
     <label style="margin-top:12px;">Customer Fee</label>
-    <div id="result" class="out" aria-live="polite">–</div>
-    <div id="note" class="muted" style="display:none;margin-top:6px;">
-  <!-- Fylls av JS -->
-</div>
+    <div id="result" class="out" aria-live="polite" aria-describedby="note">–</div>
+
+    <label style="margin-top:12px;">Price (excl. VAT)</label>
+    <div id="resultExVat" class="out" aria-live="polite">–</div>
+
+    <div id="note" class="muted" style="display:none;margin-top:6px;"><!-- Fylls av JS --></div>
   </div>
-  <script src="calc.js"></script>
+
+  <!-- cache-bust så du ser nya ändringar direkt -->
+  <script src="calc.js?v=3"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
