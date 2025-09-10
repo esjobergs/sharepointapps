@@ -4,6 +4,7 @@
   const outEx   = document.getElementById('resultExVat');   // excl. VAT
 
   const multiplier = 1.25 * 1.34; // 1.675
+  const MIN_PRICE  = 899;         // lägsta pris som får visas
 
   // Undantag: specifika inköpspriser -> fast kundpris (visas exakt)
   const overrides = new Map([
@@ -33,15 +34,14 @@
   const ceilTo10  = (num) => Math.ceil(num / 10) * 10;
 
   // Exakt 80% av heltalspriset (inkl. moms) utan avrundning.
-  // Eftersom 0,8 = 4/5 får vi högst en decimal (.,2 . ,4 , .6 , .8).
   function toKrEightyPercentNoRound(inclVatInt) {
-    const numerator = inclVatInt * 4;       // 4 * pris
+    const numerator = inclVatInt * 4;            // 4 * pris
     const whole     = Math.floor(numerator / 5); // heltalsdel
-    const rem       = numerator % 5;        // 0..4  ->  .0 .2 .4 .6 .8
+    const rem       = numerator % 5;             // 0..4 -> .0 .2 .4 .6 .8
     const wholeStr  = intFormat.format(whole);
     if (rem === 0) return `${wholeStr} kr`;
-    const decimalDigit = rem * 2;           // 2,4,6,8
-    return `${wholeStr},${decimalDigit} kr`; // sv-SE-komma, ingen avrundning
+    const decimalDigit = rem * 2;                // 2,4,6,8
+    return `${wholeStr},${decimalDigit} kr`;     // sv-SE-komma
   }
 
   function showNote(show) {
@@ -61,10 +61,12 @@
       return;
     }
 
-    // Customer Fee (incl. VAT)
+    // Customer Fee (incl. VAT), med minpris
     const isOverride = overrides.has(n);
-    const feeValue   = isOverride ? overrides.get(n) : ceilTo10(n * multiplier); // heltal kr
-    const feeLabel   = isOverride ? '(Fixed Price)' : '(Calculated Price)';
+    const feeValueRaw = isOverride ? overrides.get(n) : ceilTo10(n * multiplier);
+    const feeValue    = Math.max(MIN_PRICE, feeValueRaw); // <- min 899
+
+    const feeLabel = isOverride ? '(Fixed Price)' : '(Calculated Price)';
     outIncl.textContent = `${toKr(feeValue)} ${feeLabel}`;
 
     // Customer Fee (excl. VAT) = 80% av inkl. VAT, exakt utan avrundning
@@ -77,4 +79,3 @@
   input.addEventListener('input', calc);
   calc();
 })();
-
