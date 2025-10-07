@@ -6,13 +6,18 @@
   <title>Gire Price Calculator</title>
   <style>
     :root { color-scheme: light; }
-    body { font-family: Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 12px; }
-    .card { max-width: 620px; margin: 0 auto; padding: 12px; border-radius: 12px; border:1px solid #e5e7eb; }
+    body { font-family: Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 12px; background:#f9fafb; }
+    .card { max-width: 620px; margin: 0 auto; padding: 12px; border-radius: 12px; border:1px solid #e5e7eb; background:#fff; }
     h2 { margin: 0 0 8px 0; }
     label { font-weight: 600; margin: 10px 0 4px; display:block; }
     input { padding: 10px 12px; border:1px solid #cbd5e1; border-radius: 8px; font-size: 16px; width: 100%; box-sizing: border-box; }
     .out { margin-top:6px; padding: 10px 12px; border: 1px dashed #cbd5e1; border-radius: 8px; background:#f8fafc; font-size: 16px; min-height: 22px; }
-    .muted{ color:#64748b; font-size: 12px; margin-top:6px; }
+    .highlight { 
+      background: #e0f2fe; /* ljusblå */
+      border: 1px solid #38bdf8; /* cyanblå ram */
+      box-shadow: 0 0 6px rgba(56, 189, 248, 0.3);
+    }
+    .muted { color:#64748b; font-size: 12px; margin-top:6px; }
   </style>
 </head>
 <body>
@@ -23,11 +28,11 @@
     <input id="n" type="text" inputmode="decimal" placeholder="Input price from Gire Portal ex. VAT" />
 
     <label>Customer Fee (incl. VAT)</label>
-    <div id="result" class="out" aria-live="polite" aria-describedby="note">–</div>
+    <div id="result" class="out highlight" aria-live="polite" aria-describedby="note">–</div>
 
     <label>Customer Fee (excl. VAT)</label>
-<div id="resultExVat" class="out" aria-live="polite" aria-describedby="exVatHint">–</div>
-<div id="exVatHint" class="muted">Enter the customer fee excluding VAT in SCA Service Visit</div>
+    <div id="resultExVat" class="out" aria-live="polite" aria-describedby="exVatHint">–</div>
+    <div id="exVatHint" class="muted">Enter the customer fee excluding VAT in SCA Service Visit</div>
 
     <div id="note" class="muted" style="display:none;"></div>
   </div>
@@ -36,4 +41,3 @@
   <script src="calc.js?v=5"></script>
 </body>
 </html>
-
